@@ -1,4 +1,5 @@
 # 360° JavaScript Viewer — Unauthenticated AJAX Attachment URL Disclosure
+## BUG Author: [Zabed Ullah Poyel]
 
 ## Product Information
 
@@ -488,65 +489,23 @@ This demonstrates that the AJAX action is accessible to unauthenticated users an
 
 ### 1. Remove Unauthenticated AJAX Registration
 
-If the notifier functionality is intended only for authorized users, remove:
-
-```php
-add_action(
-    'wp_ajax_nopriv_get_notifier_image',
-    array($this, 'getNotifierImage')
-);
-```
-
-and retain:
-
-```php
-add_action(
-    'wp_ajax_get_notifier_image',
-    array($this, 'getNotifierImage')
-);
-```
+Remove the `wp_ajax_nopriv_get_notifier_image` hook and keep only the authenticated AJAX hook.
 
 ### 2. Add Authorization
 
-Inside `getNotifierImage()`:
-
-```php
-if (!current_user_can('manage_options')) {
-    wp_send_json_error([
-        'message' => 'Unauthorized'
-    ], 403);
-}
-```
+Require an appropriate capability check before processing the request.
 
 ### 3. Add Nonce Verification
 
-Use a nonce generated specifically for this AJAX operation:
-
-```php
-check_ajax_referer('jsv_notifier');
-```
-
-Nonce validation should complement, not replace, authorization checks.
+Verify a valid AJAX nonce to prevent unauthorized requests.
 
 ### 4. Validate the Attachment ID
 
-```php
-$imageId = absint(
-    $_GET[$this::NOTIFIER_IMAGE_ID] ?? 0
-);
-
-if (!$imageId) {
-    wp_send_json_error([
-        'message' => 'Invalid attachment ID'
-    ], 400);
-}
-```
+Sanitize and validate `jsv360_notifier_image_id` using `absint()`.
 
 ### 5. Enforce Attachment-Level Authorization
 
-Before returning the URL, verify that the requesting user is authorized to access the requested attachment.
-
-The application should not rely solely on the fact that `wp_get_attachment_image_src()` returns a URL.
+Verify that the requester is authorized to access the requested attachment before returning its URL.
 
 ## Additional Information
 
