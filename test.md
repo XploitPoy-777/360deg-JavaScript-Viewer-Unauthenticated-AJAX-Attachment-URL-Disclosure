@@ -542,8 +542,6 @@ if (!$imageId) {
 }
 ```
 
-![ss](Screenshot_8.png)
-
 ### 5. Enforce Attachment-Level Authorization
 
 Before returning the URL, verify that the requesting user is authorized to access the requested attachment.
