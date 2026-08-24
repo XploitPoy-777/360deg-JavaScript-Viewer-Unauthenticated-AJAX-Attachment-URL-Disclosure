@@ -487,23 +487,23 @@ This demonstrates that the AJAX action is accessible to unauthenticated users an
 
 ## Suggested Remediation
 
-### 1. Remove Unauthenticated AJAX Registration
+#### 1. Remove Unauthenticated AJAX Registration
 
 Remove the `wp_ajax_nopriv_get_notifier_image` hook and keep only the authenticated AJAX hook.
 
-### 2. Add Authorization
+#### 2. Add Authorization
 
 Require an appropriate capability check before processing the request.
 
-### 3. Add Nonce Verification
+#### 3. Add Nonce Verification
 
 Verify a valid AJAX nonce to prevent unauthorized requests.
 
-### 4. Validate the Attachment ID
+#### 4. Validate the Attachment ID
 
 Sanitize and validate `jsv360_notifier_image_id` using `absint()`.
 
-### 5. Enforce Attachment-Level Authorization
+#### 5. Enforce Attachment-Level Authorization
 
 Verify that the requester is authorized to access the requested attachment before returning its URL.
 
