@@ -117,6 +117,8 @@ Content-Type: application/json; charset=UTF-8
 }
 ```
 
+![ss](Screenshot_8.png)
+
 ### Invalid Attachment ID
 
 ```bash
